@@ -12,6 +12,8 @@ export const OpacitySlider: FC<{
       value={value}
       onChange={onChange}
       disableSwap
+      // validate in function
+      min={1}
       defaultValue={100}
       sx={{
         width: "305px",
