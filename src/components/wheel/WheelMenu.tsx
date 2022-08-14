@@ -10,7 +10,7 @@ type MenuProps = {
 };
 
 export const WheelMenu: FC<MenuProps> = ({ anchorEl, open, handleClose }) => {
-  const [colorCode, setColorCode] = useState<string>("");
+  const [colorCode, setColorCode] = useState<{ hex: string }>({ hex: "" });
   return (
     <Menu
       PaperProps={{
@@ -26,24 +26,17 @@ export const WheelMenu: FC<MenuProps> = ({ anchorEl, open, handleClose }) => {
       sx={{
         "& .MuiList-root.MuiMenu-list": {
           padding: 2,
-          // display: "flex",
-          // flexDirection: "column",
-          // justifyContent: "center",
-          // alignItems: "center",
         },
       }}
       anchorEl={anchorEl}
       open={open}
       onClose={handleClose}
     >
-      <Wheel
-        setColorCode={(code) => setColorCode(code)}
-        colorCode={colorCode}
-      />
-      <OpacitySlider color={colorCode} />
+      <Wheel setColorCode={(code) => setColorCode({ hex: code.hex })} />
+      <OpacitySlider color={colorCode.hex} />
       <div
         style={{
-          background: colorCode,
+          background: colorCode.hex,
           width: 50,
           height: 50,
         }}
