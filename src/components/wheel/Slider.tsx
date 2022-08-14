@@ -1,17 +1,35 @@
 import { Slider } from "@mui/material";
 import { FC } from "react";
+import { hexToRGB } from "./Wheel";
 
-export const OpacitySlider: FC<{ color: string }> = ({ color }) => {
+export const OpacitySlider: FC<{
+  color: string;
+  onChange: (_: Event, value: number | number[]) => void;
+}> = ({ color, onChange }) => {
   return (
     <Slider
+      onChange={onChange}
       disableSwap
       sx={{
         width: "305px",
         mt: 3,
         "& .MuiSlider-rail": {
-          background: `linear-gradient(to right,${color}, #000)`,
+          background: "#fff",
+          backgroundImage: `url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill-opacity=".05"><path d="M8 0h8v8H8zM0 8h8v8H0z"/></svg>')`,
+
           opacity: 1,
           height: "20px",
+          "&:before": {
+            position: "absolute",
+            content: "' '",
+            height: "20px",
+            width: "100%",
+            borderRadius: 20,
+            backgroundImage: `linear-gradient(90deg, ${hexToRGB(
+              color,
+              0.1
+            )}, ${hexToRGB(color)})`,
+          },
         },
         "& .MuiSlider-thumb": {
           color: "#FFF",
@@ -23,6 +41,9 @@ export const OpacitySlider: FC<{ color: string }> = ({ color }) => {
         },
         "& .MuiSlider-track": {
           color: "transparent",
+        },
+        "& .Mui-active": {
+          boxShadow: "none",
         },
       }}
     />

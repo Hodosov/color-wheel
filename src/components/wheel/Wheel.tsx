@@ -5,7 +5,7 @@ import wheel from "../assets/wheel.png";
 export const wheelSize = 220;
 
 type WheelProps = {
-  setColorCode: ({ hex }: { hex: string }) => void;
+  setColorCode: ({ hex, rgba }: { hex: string; rgba?: string }) => void;
 };
 
 export const Wheel: FC<WheelProps> = ({ setColorCode }) => {
@@ -42,9 +42,7 @@ export const Wheel: FC<WheelProps> = ({ setColorCode }) => {
             const hex =
               "#" +
               ("000000" + rgbToHex(color[0], color[1], color[2])).slice(-6);
-            setColorCode({
-              hex,
-            });
+            setColorCode({ hex });
 
             return;
           }
@@ -56,7 +54,7 @@ export const Wheel: FC<WheelProps> = ({ setColorCode }) => {
       img.src = wheel;
       if (img.complete) context?.drawImage(img, 0, 0, wheelSize, wheelSize);
 
-      canvas.addEventListener("mousemobe", (e) => mouseMove(e, context));
+      canvas.addEventListener("click", (e) => mouseMove(e, context));
     }
   }, []);
 
@@ -100,4 +98,16 @@ export const Wheel: FC<WheelProps> = ({ setColorCode }) => {
 export function rgbToHex(r: number, g: number, b: number) {
   if (r > 255 || g > 255 || b > 255) return;
   return ((r << 16) | (g << 8) | b).toString(16);
+}
+
+export function hexToRGB(hex: string, alpha?: number) {
+  const r = parseInt(hex.slice(1, 3), 16),
+    g = parseInt(hex.slice(3, 5), 16),
+    b = parseInt(hex.slice(5, 7), 16);
+
+  if (alpha) {
+    return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+  } else {
+    return "rgb(" + r + ", " + g + ", " + b + ")";
+  }
 }

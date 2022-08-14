@@ -9,7 +9,7 @@ export const WheelButton: FC<{
     <Box
       sx={{
         width: "fit-content",
-        border: "1px solid #3595F6",
+        border: "2px solid #3595F6",
         borderRadius: "50%",
       }}
     >
