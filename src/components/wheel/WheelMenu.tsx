@@ -14,6 +14,7 @@ export const WheelMenu: FC<MenuProps> = ({ anchorEl, open, handleClose }) => {
     hex: "",
   });
   const [rgba, setRgba] = useState("");
+  const [sliderValue, setSliderValue] = useState(100);
 
   const sliderChange = (value: number | number[]) => {
     const alfa = Array.isArray(value) ? value[0] : value;
@@ -44,14 +45,19 @@ export const WheelMenu: FC<MenuProps> = ({ anchorEl, open, handleClose }) => {
     >
       <Wheel
         setColorCode={(code) => {
-          setColorCode((prev) => ({ ...prev, hex: code.hex }));
-          console.log(hexToRGB(colorCode.hex, 1));
-          sliderChange(100);
+          setColorCode({ hex: code.hex });
+          const rgb = hexToRGB(code.hex);
+          setSliderValue(100);
+          setRgba(rgb);
         }}
       />
       <OpacitySlider
+        value={sliderValue}
         color={colorCode.hex}
-        onChange={(_, value) => sliderChange(value)}
+        onChange={(_, value) => {
+          setSliderValue(Array.isArray(value) ? value[0] : value);
+          sliderChange(value);
+        }}
       />
       <Box
         sx={{
@@ -63,7 +69,7 @@ export const WheelMenu: FC<MenuProps> = ({ anchorEl, open, handleClose }) => {
             width: 50,
             height: 50,
             content: "' '",
-            background: rgba || colorCode.hex,
+            background: rgba,
           },
           margin: "24px auto 0",
           background: "#fff",

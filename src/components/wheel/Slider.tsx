@@ -4,12 +4,15 @@ import { hexToRGB } from "./Wheel";
 
 export const OpacitySlider: FC<{
   color: string;
+  value: number;
   onChange: (_: Event, value: number | number[]) => void;
-}> = ({ color, onChange }) => {
+}> = ({ color, onChange, value }) => {
   return (
     <Slider
+      value={value}
       onChange={onChange}
       disableSwap
+      defaultValue={100}
       sx={{
         width: "305px",
         mt: 3,
